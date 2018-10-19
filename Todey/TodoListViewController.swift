@@ -12,8 +12,13 @@ class TodoListViewController: UITableViewController {
 
     var itemArray = ["Buy milk", "Work out", "Study"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
+            itemArray = items
+        }
     }
     
     //MARK - Tableview Datasource Methods
@@ -63,13 +68,12 @@ class TodoListViewController: UITableViewController {
             }
             print(userInput)
             self.itemArray.append(userInput)
+            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
             self.tableView.reloadData()
         }
         
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-    
-
 }
 
